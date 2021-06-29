@@ -1,0 +1,10 @@
+여기 있는 것은 legacy HDD(not SSD)로 링크된 디렉토림임
+gentoo32 파티션을 따로 백업하는 대신 링크 목록만 관리하기로 함
+/etc/make.conf의 PORTDIR 이랑 다른 변수 셋팅을 점검해 줄 것
+
+/usr/portage
+/home/dks/.mozilla
+/home/dks/.thunderbird
+/home/dks/.config/deluge/state
+/home/dks/Desktop
+/home/dks/.cache
