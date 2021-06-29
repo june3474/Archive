@@ -12,7 +12,7 @@ post_install() {
             if [[ ! -z nimf ]]; then
                 rm "$_plugin_dir/libqt5im_nimf.so"
                 ln -s "$nimf" "$_plugin_dir/libqt5im_nimf.so"
-		echo "Replaced ${_plugin_dir}/libqt5im_nimf.so with a symlink to $nimf"  
+		echo "Replaced ${_plugin_dir}/libqt5im-nimf.so with a symlink to $nimf"  
             fi
             ;;
         ibus)
