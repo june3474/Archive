@@ -4,7 +4,7 @@ post_install() {
     # The shell executing 'makepkg' seems to reset all environment variables.
     # So, we can't directly reference $QT_IM_MODULE varialbe.
     local _im_pid=$(pgrep -xo "(nimf|ibus|fcitx)")
-    local _im=$(awk -v 'RS=\0' -F= '$1=="GTK_IM_MODULE" {print $2}' /proc/${_im_pid}/environ)
+    local _im=$(awk -v 'RS=\0' -F= '$1=="QT_IM_MODULE" {print $2}' /proc/${_im_pid}/environ)
     echo "${_im} Found" 
     case $_im in
         nimf)
