@@ -1,20 +1,26 @@
 post_install() {
     printf "한글 입력기를 설정합니다...\nSetting hangul input method...\n"
-    local plugin_dir="/opt/hoffice11/Bin/qt/plugins/platforminputcontexts"
-    echo "${QT_IM_MODULE} Found" 
-    case $QT_IM_MODULE in
+    local _plugin_dir="/opt/hoffice11/Bin/qt/plugins/platforminputcontexts"
+    # The shell executing 'makepkg' seems to reset all environment variables.
+    # So, we can't directly reference $QT_IM_MODULE varialbe.
+    local _im_pid=$(pgrep -xo "(nimf|ibus|fcitx)")
+    local _im=$(awk -v 'RS=\0' -F= '$1=="GTK_IM_MODULE" {print $2}' /proc/${_im_pid}/environ)
+    echo "${_im} Found" 
+    case $_im in
         nimf)
             local nimf=$(find / -name libqt5im_nimf.so)
             if [[ ! -z nimf ]]; then
-                rm "$plugin_dir/libqt5im_nimf.so"
-                ln -s "$im" "$plugin_dir/libqt5im_nimf.so"
+                rm "$_plugin_dir/libqt5im_nimf.so"
+                ln -s "$nimf" "$_plugin_dir/libqt5im_nimf.so"
+		echo "Replaced ${_plugin_dir}/libqt5im_nimf.so with a symlink to $nimf"  
             fi
             ;;
         ibus)
             local ibus=$(find / -name libibusplatforminputcontextplugin.so)
             if [[ ! -z ibus ]]; then
-                rm "$plugin_dir/libibusplatforminputcontextplugin.so"
-                ln -s "$im" "$plugin_dir/libibusplatforminputcontextplugin.so"
+                rm "$_plugin_dir/libibusplatforminputcontextplugin.so"
+                ln -s "$ibus" "$_plugin_dir/libibusplatforminputcontextplugin.so"
+		echo "Replaced ${_plugin_dir}/libibusplatforminputcontextplugin.so with a symlink to $nimf" 
             fi
             ;;                
         *)
